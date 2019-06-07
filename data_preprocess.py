@@ -56,6 +56,10 @@ viewer = mujoco_py.MjRenderContextOffscreen(sim, 0)
 viewer.cam.elevation = -90
 df = pd.DataFrame(columns=['x','y','x_vel','y_vel'])
 for i in range(9999):
+    if i == 0:
+        sim.data.qpos[0] = np.random.uniform(-0.7,0.7)
+        sim.data.qpos[1] = np.random.uniform(-0.7,0.7)
+        sim.data.qpos[2] = 0
     sim.data.ctrl[0] = (i==0) * np.random.uniform(-3,3) #speed at t==0
     sim.data.ctrl[1] = (i==0) * np.random.uniform(-3,3)
     x, y, _ = sim.data.qpos
@@ -66,7 +70,7 @@ for i in range(9999):
     data = np.asarray(viewer.read_pixels(480, 480, depth=False)[:, :, :], dtype=np.uint8)
     # save data
     if data is not None:
-        name = ("frames/img_%.4d.png" % i)
+        name = ("frames2/img_%.4d.png" % i)
         cv2.imwrite(name, data)
 
     print(i)
